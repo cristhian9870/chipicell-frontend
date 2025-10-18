@@ -210,6 +210,17 @@ function App() {
     setCart([]);
   };
 
+  // Google OAuth redirect (shared for login and register)
+  const handleGoogleSignIn = () => {
+    // If VITE_API_URL is not set, default to localhost API path used elsewhere in the app
+    const base = API_URL ?? 'http://localhost:3000/api';
+    const normalized = base.endsWith('/') ? base.slice(0, -1) : base;
+    const url = `${normalized}/auth/google`;
+
+    // Open in the same tab so the OAuth redirect can return to the app
+    window.location.href = url;
+  };
+
   // Cart functions
   const addToCart = (product: Product) => {
     const existingItem = cart.find(item => item.id === product.id);
@@ -687,6 +698,18 @@ function App() {
             >
               {isLoginMode ? 'Iniciar Sesión' : 'Crear Cuenta'}
             </button>
+
+            {/* Google Sign-in button */}
+            <div className="mt-4">
+              <button
+                type="button"
+                onClick={handleGoogleSignIn}
+                className="w-full flex items-center justify-center space-x-3 border border-gray-300 rounded-lg py-2 hover:shadow-sm transition-shadow bg-white"
+              >
+                <img src="https://www.svgrepo.com/show/355037/google.svg" alt="Google" className="w-5 h-5" />
+                <span className="text-sm font-medium text-gray-700">Continuar con Google</span>
+              </button>
+            </div>
           </form>
 
           <div className="mt-6 text-center">
